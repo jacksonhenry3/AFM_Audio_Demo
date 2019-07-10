@@ -75,8 +75,7 @@ if (typeof source !== 'undefined') {
 }
 }};
 
-
-slider.ontouchend = function(){ micQ = false;sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .1);console.log(  sliderOscilator.frequency.value);
+$("#myRange").bind("touchend", function(){ micQ = false;sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .1);console.log(  sliderOscilator.frequency.value);
 
   if (typeof micQQ !== 'undefined') {
     if (micQQ) {source.connect(analyserNode);
@@ -86,7 +85,7 @@ slider.ontouchend = function(){ micQ = false;sliderGainNode.gain.linearRampToVal
 if (typeof source !== 'undefined') {
   source.connect(audioCtx.destination);
 }
-}};
+}});
 
 
 
@@ -241,7 +240,7 @@ analyserNode.getByteTimeDomainData(dataArray);
 // Get a canvas defined with ID "oscilloscope"
 var canvas = document.getElementById("oscilloscope");
 canvas.width = 1315;
-canvas.height = 500;
+canvas.height = 400;
 var canvasCtx = canvas.getContext("2d");
 
 // draw an oscilloscope of the current audio source
