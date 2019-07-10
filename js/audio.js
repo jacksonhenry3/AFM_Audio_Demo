@@ -76,12 +76,8 @@ $("#myRange").bind("touchend", function(){ micQ = false;sliderGainNode.gain.line
 
   if (typeof micQQ !== 'undefined') {
     if (micQQ) {source.connect(analyserNode);
+      source.connect(audioCtx.destination);
   }
-
-
-if (typeof source !== 'undefined') {
-  source.connect(audioCtx.destination);
-}
 }});
 
 
