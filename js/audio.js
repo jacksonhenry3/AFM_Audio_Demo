@@ -160,7 +160,7 @@ $(".key").bind("touchend mouseup",function(){
 
 
 $(".button").click(function(){
-  if (lastClickedID == "mic") {
+  if (lastClickedID == "mic" &&  this.id != "mic") {
     source.disconnect()
   }
   $("#"+lastClickedID).css("box-shadow", "1px 1px 5px #444");
