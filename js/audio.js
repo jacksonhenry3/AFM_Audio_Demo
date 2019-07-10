@@ -67,12 +67,9 @@ slider.onmouseout = function(){ micQ = false;sliderGainNode.gain.linearRampToVal
 
   if (typeof micQQ !== 'undefined') {
     if (micQQ) {source.connect(analyserNode);
+      source.connect(audioCtx.destination);
   }
 
-
-if (typeof source !== 'undefined') {
-  source.connect(audioCtx.destination);
-}
 }};
 
 $("#myRange").bind("touchend", function(){ micQ = false;sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .1);console.log(  sliderOscilator.frequency.value);
@@ -160,8 +157,6 @@ $(".key").bind("touchend mouseup",function(){
     oscilatorObj[this.innerHTML] = null
   }
 
-
-var micQQ = false;
 
 });
 
