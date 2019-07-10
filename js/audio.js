@@ -87,7 +87,7 @@ if (typeof source !== 'undefined') {
 
 
 slider.oninput = function() {
-  micQ = true
+  // micQ = true
 
   sliderOscilator.frequency.setValueAtTime(Math.exp(this.value), audioCtx.currentTime);
   sliderGainNode.gain.linearRampToValueAtTime(.1, audioCtx.currentTime + .1);
