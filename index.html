@@ -1,0 +1,92 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+<canvas id = "oscilloscope"></canvas>
+<div class = "input_selection">
+   <img src = "sine.png" id = "sine" class = "button">
+   <img src = "tri.png" id = "triangle" class = "button">
+   <img src = "sawtooth.png" id = "sawtooth" class = "button">
+   <img src = "square.png" id = "square" class = "button">
+   <img src = "mic.jpg" id = "mic" class = "button">
+</div>
+<div id = "keyboard">
+  <div class = "keyrow">
+    <div class = "key"> 1 </div>
+    <div class = "key"> 2 </div>
+    <div class = "key"> 3 </div>
+    <div class = "key"> 4 </div>
+    <div class = "key"> 5 </div>
+    <div class = "key"> 6 </div>
+    <div class = "key"> 7 </div>
+    <div class = "key"> 8 </div>
+    <div class = "key"> 9 </div>
+    <div class = "key"> 0 </div>
+    <div class = "key"> - </div>
+  </div>
+  <!-- <div class = "keyrow" id = "keyrow1">
+<div class = "key"> q </div>
+<div class = "key"> w </div>
+<div class = "key"> e </div>
+<div class = "key"> r </div>
+<div class = "key"> t </div>
+<div class = "key"> y </div>
+<div class = "key"> u </div>
+<div class = "key"> i </div>
+<div class = "key"> o </div>
+<div class = "key"> p </div>
+  </div>
+  <div class = "keyrow" id = "keyrow2">
+  <div class = "key"> a </div>
+  <div class = "key"> s </div>
+  <div class = "key"> d </div>
+  <div class = "key"> f </div>
+  <div class = "key"> g </div>
+  <div class = "key"> h </div>
+  <div class = "key"> j </div>
+  <div class = "key"> k </div>
+  <div class = "key"> l </div>
+  </div> -->
+</div>
+
+ <input type="range" min="1" max="100" value="50" class="slider" id="myRange" step = .000000001>
+
+
+  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script src="js/plugins.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/audio.js"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+
+</html>
