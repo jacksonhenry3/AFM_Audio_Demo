@@ -45,3 +45,21 @@ $(".key").bind("touchend mouseup",function(){
   $(".key:contains(" +charachter+")").css("top", "0px");
   $(".key:contains(" +charachter+")").css("left", "0px");
 });
+
+
+$(".button").click(function(){
+  // if (lastClickedID == "mic" &&  this.id != "mic") {
+  //   source.disconnect()
+  // }
+  $(".button").css("box-shadow", "1px 1px 5px #444");
+  $(".button").css("opacity", ".5");
+
+  // lastClickedID = this.id
+  $("#"+this.id).css("opacity", "1");
+  $("#"+this.id).css("box-shadow", "0px 0px 0px #444");
+
+});
+
+// lastClickedID = this.id
+$("#sine").css("opacity", "1");
+$("#sine").css("box-shadow", "0px 0px 0px #444");

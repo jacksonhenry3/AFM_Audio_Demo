@@ -25,7 +25,7 @@ function playNote(freq, type){
   gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
 
   oscillator.start();
-  gainNode.gain.linearRampToValueAtTime(.1, audioCtx.currentTime + .1);
+  gainNode.gain.linearRampToValueAtTime(.1, audioCtx.currentTime + .03);
   return [oscillator,gainNode]
 }
 
@@ -42,20 +42,19 @@ freqObj = {
 }
 
 freqObj = {
-  "1":261.63/4,
-  "2":293.66/4,
-  "3":329.63/4,
-  "4":349.23/4,
-  "5":392.00/4,
-  "6":440.00/4,
-  "7":493.88/4,
-  "8":523.25/4
-  // "9":587.33/4,
-  // "0":659.25/4,
-  // "½":783.99/4
+  "1":261.63/2,
+  "2":293.66/2,
+  "3":329.63/2,
+  "4":349.23/2,
+  "5":392.00/2,
+  "6":440.00/2,
+  "7":493.88/2,
+  "8":523.25/2
 }
 
-var n =1
+var n = 1
+
+
 $("#myRange").on('input', function(){console.log("A")});
 
 var slider = document.getElementById("myRange");
@@ -63,7 +62,7 @@ var slider = document.getElementById("myRange");
 // output.innerHTML = slider.value; // Display the default slider value
 
 // Update the current slider value (each time you drag the slider handle)
-slider.onmouseout = function(){ micQ = false;sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .1);console.log(  sliderOscilator.frequency.value);
+slider.onmouseout = function(){ micQ = false;sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .03);console.log(  sliderOscilator.frequency.value);
 
   if (typeof micQQ !== 'undefined') {
     if (micQQ) {source.connect(analyserNode);
@@ -72,7 +71,7 @@ slider.onmouseout = function(){ micQ = false;sliderGainNode.gain.linearRampToVal
 
 }};
 
-$("#myRange").bind("touchend", function(){ micQ = false;sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .1);console.log(  sliderOscilator.frequency.value);
+$("#myRange").bind("touchend", function(){ micQ = false;sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .03);console.log(  sliderOscilator.frequency.value);
 
   if (typeof micQQ !== 'undefined') {
     if (micQQ) {source.connect(analyserNode);
@@ -86,7 +85,7 @@ slider.oninput = function() {
   // micQ = true
 
   sliderOscilator.frequency.setValueAtTime(Math.exp(this.value), audioCtx.currentTime);
-  sliderGainNode.gain.linearRampToValueAtTime(.1, audioCtx.currentTime + .1);
+  sliderGainNode.gain.linearRampToValueAtTime(.1, audioCtx.currentTime + .03);
 
   if (typeof source !== 'undefined') {
     source.disconnect()
@@ -113,8 +112,8 @@ $(document).keyup(function(event){
     if (! micQ) {
       note = String.fromCharCode(event.keyCode).toLowerCase()
 
-    oscilatorObj[note][1].gain.linearRampToValueAtTime(0, audioCtx.currentTime + .1);
-    oscilatorObj[note][0].stop(audioCtx.currentTime + .15);
+    oscilatorObj[note][1].gain.linearRampToValueAtTime(0, audioCtx.currentTime + .03);
+    oscilatorObj[note][0].stop(audioCtx.currentTime + .035);
     oscilatorObj[note] = null
   }
 
@@ -148,8 +147,8 @@ $(".key").bind("touchend mouseup",function(){
     if (! micQ) {
       note = parseFloat(this.innerHTML)
 
-    oscilatorObj[this.innerHTML][1].gain.linearRampToValueAtTime(0, audioCtx.currentTime + .1);
-    oscilatorObj[this.innerHTML][0].stop(audioCtx.currentTime + .15);
+    oscilatorObj[this.innerHTML][1].gain.linearRampToValueAtTime(0, audioCtx.currentTime + .03);
+    oscilatorObj[this.innerHTML][0].stop(audioCtx.currentTime + .035);
     oscilatorObj[this.innerHTML] = null
   }
 
@@ -181,7 +180,7 @@ $(".button").click(function(){
   if (this.id == "mic") {
     micQ = true
     micQQ = true
-    sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .1);
+    sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .03);
     //this is to make sure the useres browser supports the reuired standards.
     if (navigator.mediaDevices.getUserMedia)
     {
