@@ -2,7 +2,7 @@
 var rampTime = .01;
 var micQ = false;
 var oscType = "sine";
-var defaultMaxVolume = .1;
+var defaultMaxVolume = .5;
 var maxVolume = defaultMaxVolume
 var visualAmplitude = .25;
 
