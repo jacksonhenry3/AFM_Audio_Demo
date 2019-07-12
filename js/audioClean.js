@@ -151,6 +151,7 @@ function selectType(){
     // therfore the larger waves have a lower max volume to compensate
     if (oscType == "square" || oscType == "sawtooth") {
       maxVolume = defaultMaxVolume/4
+      globalGainNode.gain.setValueAtTime(maxVolume, audioCtx.currentTime);
     }
     else {
       maxVolume = defaultMaxVolume
