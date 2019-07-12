@@ -150,7 +150,7 @@ function selectType(){
     // becouse different waveshapes had different integrations they sound louder.
     // therfore the larger waves have a lower max volume to compensate
     if (oscType == "square" || oscType == "sawtooth") {
-      maxVolume = defaultMaxVolume/2.3
+      maxVolume = defaultMaxVolume/4
     }
     else {
       maxVolume = defaultMaxVolume
