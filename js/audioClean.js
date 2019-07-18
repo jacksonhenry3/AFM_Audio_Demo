@@ -1,11 +1,11 @@
 // Configuration Variables
-var rampTime = .01;
+var rampTime = .03;
 var micQ = false;
 var oscType = "sine";
 var defaultMaxVolume = .5;
 var maxVolume = defaultMaxVolume
-var visualAmplitude = .25;
-
+var visualAmplitude = .1;
+var source
 
 // create web audio api context
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -14,7 +14,9 @@ var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var analyser = audioCtx.createAnalyser();
 analyser.fftSize = 32768/4;
 var bufferLength = analyser.frequencyBinCount;
+analyser.smoothingTimeConstant = .0
 var dataArray = new Uint8Array(bufferLength);
+var dataArray2 = new Uint8Array(bufferLength);
 
 
 var globalGainNode = audioCtx.createGain();
@@ -46,7 +48,7 @@ function playNote(freq, type){
 
   // by adding a short ramp to volume we avoid speaker clicking
   gain.gain.setValueAtTime(0, audioCtx.currentTime);
-  gain.gain.linearRampToValueAtTime(visualAmplitude, audioCtx.currentTime + .02);
+  gain.gain.linearRampToValueAtTime(visualAmplitude, audioCtx.currentTime + rampTime);
 
   // connect the gain node to the analyser
   gain.connect(analyser)
@@ -56,16 +58,25 @@ function playNote(freq, type){
 }
 
 // map keys (and buttons) to frequencies
+rootfreq = 200
+
 var freqObj = {
-  "1":261.63/2,
-  "2":293.66/2,
-  "3":329.63/2,
-  "4":349.23/2,
-  "5":392.00/2,
-  "6":440.00/2,
-  "7":493.88/2,
-  "8":523.25/2
+  "w":rootfreq, //c 
+  "3":rootfreq*16/15., //c#
+  "e":rootfreq*9/8., // d
+  "4":rootfreq*6/5., //e flat
+  "r":rootfreq*5/4., //e
+  "t":rootfreq*4/3, //f
+  "6":rootfreq*7./5,//f sharp g flat
+  "y":rootfreq*3./2, //g
+  "7":rootfreq*8./5,
+  "u":rootfreq*5/3.,
+  "8":rootfreq*9./5,
+  "i":rootfreq*15/8,
+  "o":rootfreq*2
 }
+
+
 
 // keeps track of created and destroyed oscilators
 var oscilatorObj = {}
@@ -99,7 +110,7 @@ function keydown(event){
   // check which key is being press
   note = String.fromCharCode(event.keyCode).toLowerCase()
   // if  they arent already pressing this key and it is a mapped key
-  if (oscilatorObj[note] == null && ["1","2","3","4","5","6","7","8"].indexOf(note) >= 0) {
+  if (oscilatorObj[note] == null && ["w","3","e","4","r","t","6","y","7","u","8","i","o"].indexOf(note) >= 0) {
       // play a note with the frequency mapped out in freqObj
       oscilatorObj[note] = playNote(freqObj[note],oscType)
   }
@@ -109,10 +120,10 @@ function keyup(event){
   // check which key is being press
   note = String.fromCharCode(event.keyCode).toLowerCase()
 
-  if (["1","2","3","4","5","6","7","8"].indexOf(note) >= 0) {
+  if (["w","3","e","4","r","t","6","y","7","u","8","i","o"].indexOf(note) >= 0) {
     // ramp down the volume of that note and then stop the oscilator
     oscilatorObj[note][1].gain.linearRampToValueAtTime(0, audioCtx.currentTime + .02);
-    oscilatorObj[note][0].stop(audioCtx.currentTime + .025);
+    oscilatorObj[note][0].stop(audioCtx.currentTime + rampTime);
 
     // mark the oscilator as no longer existing for that note
     oscilatorObj[note] = null
@@ -123,8 +134,9 @@ function clickStart(){
 
   // if this note isnt already being played
   if (oscilatorObj[this.innerHTML] == null) {
+
       // check which key is being clicked
-      note = parseFloat(this.innerHTML)
+      note = this.innerHTML.trim();
       oscilatorObj[this.innerHTML] = playNote(freqObj[note],oscType)
   }
 
@@ -132,11 +144,11 @@ function clickStart(){
 
 function clickEnd(){
     // check which key is being clicked
-    note = parseFloat(this.innerHTML)
+    // note = parseFloat(this.innerHTML)
 
     // ramp down the volume of that note and then stop the oscilator
-    oscilatorObj[this.innerHTML][1].gain.linearRampToValueAtTime(0, audioCtx.currentTime + .02);
-    oscilatorObj[this.innerHTML][0].stop(audioCtx.currentTime + .025);
+    oscilatorObj[this.innerHTML][1].gain.linearRampToValueAtTime(0, audioCtx.currentTime + rampTime);
+    oscilatorObj[this.innerHTML][0].stop(audioCtx.currentTime + rampTime);
 
     // mark the oscilator as no longer existing for that note
     oscilatorObj[this.innerHTML] = null
@@ -145,6 +157,9 @@ function clickEnd(){
 function selectType(){
   // if the user selected a wave type
   if (this.id != "mic"){
+    // the analyser node will be the only node connected to the output
+    source.disconnect()
+    analyser.connect(globalGainNode)
     oscType = this.id;
 
     // becouse different waveshapes had different integrations they sound louder.
@@ -157,5 +172,37 @@ function selectType(){
       maxVolume = defaultMaxVolume
       globalGainNode.gain.setValueAtTime(maxVolume, audioCtx.currentTime);
     }
+  }
+    if (this.id == "mic") {
+    micQ = true
+    micQQ = true
+    sliderGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .03);
+    //this is to make sure the useres browser supports the reuired standards.
+    if (navigator.mediaDevices.getUserMedia)
+    {
+       console.log('getUserMedia supported.');
+       var constraints = {audio: true}
+       navigator.mediaDevices.getUserMedia (constraints)
+          .then(
+            function(stream) {
+
+              //this is the audio stream from the mic
+              source = audioCtx.createMediaStreamSource(stream);
+
+              // we then connect the source to the analyser node that we will use to create the visual
+              analyser.disconnect()
+              source.connect(analyser);
+              // source.connect(audioCtx.destination)
+
+          })
+          .catch( function(err) { console.log('The following gUM error occured: ' + err);})
+    }
+
+    // if the users browser doesnt suopport web audio
+    else
+    {
+       console.log('getUserMedia not supported on your browser!');
+    }
+
   }
 };
