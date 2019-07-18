@@ -153,11 +153,13 @@ function clickEnd(){
     // mark the oscilator as no longer existing for that note
     oscilatorObj[this.innerHTML] = null
   };
+var source  = audioCtx.createAnalyser();
 
 function selectType(){
   // if the user selected a wave type
   if (this.id != "mic"){
     // the analyser node will be the only node connected to the output
+    
     source.disconnect()
     analyser.connect(globalGainNode)
     oscType = this.id;

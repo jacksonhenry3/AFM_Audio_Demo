@@ -81,7 +81,7 @@ function draw() {
       // canvasCtx.moveTo(x, y);
     } else {
 
-      if (y>.5) {magnitude = y-.3}
+      if (y>.5) {magnitude = y-.4}
         else{ magnitude = 0}
       canvasCtx.fillStyle = "rgba(0,0,0,"+magnitude+")";
       canvasCtx.fillRect(x*10, (1-y)*canvas.height,4,4);
